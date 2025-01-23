@@ -1,44 +1,12 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from './services/message.service';
-import { SocketService } from './services/socket.service';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ReactiveFormsModule],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
-  form: FormGroup;
-  messages: string[] = [];
-
-  constructor(
-    private fb: FormBuilder,
-    private messageService: MessageService,
-    private socketService: SocketService
-  ) {
-    this.form = fb.group({
-      message: '',
-    });
-  }
-  ngOnInit(): void {
-    this.socketService.getMessages().subscribe((message: any) => {
-      this.messages.push(message);
-    });
-  }
-
-  submit() {
-    this.messageService.create(this.form.getRawValue()).subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-}
+export class AppComponent {}
