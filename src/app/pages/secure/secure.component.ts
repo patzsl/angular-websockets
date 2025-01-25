@@ -10,7 +10,7 @@ import { User } from '../../classes/user';
   styleUrl: './secure.component.css',
 })
 export class SecureComponent implements OnInit {
-  user!: User;
+  user?: User;
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
