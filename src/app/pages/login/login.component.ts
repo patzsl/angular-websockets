@@ -24,8 +24,11 @@ export class LoginComponent {
   }
 
   submit() {
-    this.authService.login(this.form.getRawValue()).subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    this.authService
+      .login(this.form.getRawValue())
+      .subscribe((response: any) => {
+        localStorage.setItem('token', response['jwt']);
+        this.router.navigate(['/']);
+      });
   }
 }
