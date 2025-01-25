@@ -3,16 +3,11 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SecureComponent } from './pages/secure/secure.component';
 import { ChatComponent } from './pages/secure/chat/chat.component';
+import { AccountComponent } from './pages/secure/account/account.component';
 
 export const routes: Routes = [
-  {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: SecureComponent,
@@ -20,6 +15,10 @@ export const routes: Routes = [
       {
         path: '',
         component: ChatComponent,
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
       },
     ],
   },

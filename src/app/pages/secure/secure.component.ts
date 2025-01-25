@@ -1,26 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../classes/user';
+import { currentUser } from '../../signals/user';
 
 @Component({
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './secure.component.html',
   styleUrl: './secure.component.css',
 })
 export class SecureComponent implements OnInit {
-  user?: User;
-  constructor(private authService: AuthService) {}
+  full_name = computed(
+    () => `${currentUser()?.first_name} ${currentUser()?.last_name}`
+  );
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.user().subscribe({
       next: (response: any) => {
-        this.user = response;
+        currentUser.set(response);
       },
       error: (err) => {
-        console.error(err);
+        currentUser.set(null);
+        this.router.navigate(['/login']);
       },
     });
   }
+
+  protected readonly currentUser = currentUser;
 }
