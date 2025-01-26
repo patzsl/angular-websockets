@@ -8,6 +8,10 @@ import { environment } from '../../environments/environment';
 export class MessageService {
   constructor(private http: HttpClient) {}
 
+  all(id: number) {
+    return this.http.get(`${environment.api}/users/${id}/messages`);
+  }
+
   create(data: any) {
     return this.http.post(`${environment.api}/message`, data);
   }

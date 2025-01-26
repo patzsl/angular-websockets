@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from '../../../services/message.service';
-import { SocketService } from '../../../services/socket.service';
+import { MessageService } from '../../../../services/message.service';
+import { SocketService } from '../../../../services/socket.service';
+import { ActivatedRoute } from '@angular/router';
+import { Message } from '../../../../classes/message';
+import { currentUser } from '../../../../signals/user';
 
 @Component({
   standalone: true,
@@ -11,12 +14,13 @@ import { SocketService } from '../../../services/socket.service';
 })
 export class ChatComponent implements OnInit {
   form: FormGroup;
-  messages: string[] = [];
+  messages: Message[] = [];
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private route: ActivatedRoute
   ) {
     this.form = fb.group({
       message: '',
@@ -25,6 +29,13 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.socketService.getMessages().subscribe((message: any) => {
       this.messages.push(message);
+    });
+
+    this.messageService.all(this.route.snapshot.params['id']).subscribe({
+      next: (response: any) => {
+        this.messages = response.messages;
+      },
+      error: (err) => {},
     });
   }
 
@@ -38,4 +49,6 @@ export class ChatComponent implements OnInit {
       },
     });
   }
+
+  protected readonly currentUser = currentUser;
 }

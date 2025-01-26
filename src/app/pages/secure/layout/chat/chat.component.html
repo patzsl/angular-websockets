@@ -1,0 +1,38 @@
+<div id="head" class="py-3 lh-sm border-bottom">
+  <strong class="mb-1">Members: John Doe, Jane Smith</strong>
+</div>
+
+<div id="conversation">
+  @for (message of messages; track message) {
+    <div class="row pt-2">
+      @if (message.sender?.id === currentUser()?.id) {
+        <div class="col-6"></div>
+      }
+      <div class="col-6">
+        @if (message.type === "text") {
+          @if (message.sender?.id === currentUser()?.id) {
+            <div class="alert alert-success d-inline-block float-end" role="alert">
+              {{ message.content }}
+            </div>
+          } @else {
+            <div class="alert alert-primary d-inline-block" role="alert">
+              {{ message.content }}
+            </div>
+          }
+        } @else {
+          <img [src]="message.content" alt="image" class="w-100"/>
+        }
+      </div>
+
+      @if (message.receiver?.id === currentUser()?.id) {
+        <div class="col-6"></div>
+      }
+    </div>
+  }
+</div>
+
+<form id="reply" class="p-3 w-100" [formGroup]="form" (submit)="submit()">
+  <div class="input-group">
+    <input class="form-control" placeholder="Write a message" formControlName="message"/>
+  </div>
+</form>
