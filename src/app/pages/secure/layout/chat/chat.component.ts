@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from '../../../../services/message.service';
-import { SocketService } from '../../../../services/socket.service';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from '../../../../classes/message';
+import { MessageService } from '../../../../services/message.service';
+import { SocketService } from '../../../../services/socket.service';
 import { currentUser } from '../../../../signals/user';
 
 @Component({
@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.form = fb.group({
-      message: '',
+      content: '',
     });
   }
   ngOnInit(): void {
@@ -40,7 +40,10 @@ export class ChatComponent implements OnInit {
   }
 
   submit() {
-    this.messageService.create(this.form.getRawValue()).subscribe({
+    const formData = this.form.getRawValue();
+    formData['receiver_id'] = this.route.snapshot.params['id'];
+    formData['type'] = 'text';
+    this.messageService.create(formData).subscribe({
       next: (response) => {
         console.log(response);
       },

@@ -1,18 +1,18 @@
 #head {
-    height: 50px;
+  height: 50px;
 }
 
 #conversation {
-    overflow: scroll;
-    overflow-x: hidden;
-    height: calc(100vh - 120px);
+  overflow: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 15em);
 }
 
 #reply {
-    height: 70px;
+  height: 70px;
 }
 
-.form-signin{
-max-width: 600px;
-padding: 15px;
+.form-signin {
+  max-width: 600px;
+  padding: 15px;
 }

@@ -13,6 +13,6 @@ export class MessageService {
   }
 
   create(data: any) {
-    return this.http.post(`${environment.api}/message`, data);
+    return this.http.post(`${environment.api}/messages`, data);
   }
 }
